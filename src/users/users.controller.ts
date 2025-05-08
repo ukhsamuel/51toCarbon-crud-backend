@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Patch, Body, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Body,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ResponseSchemaHelper } from '../utils/types/output-model';
 import { successResponse } from '../utils/types/responses/success-response';
@@ -6,6 +14,7 @@ import { successResponseSpec } from '../utils/types/responses/success-response-s
 import { UsersOutputDto, UsersOutputDtoSchema } from './dto/user-response.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
+import { JwtAuthGuard } from '../utils/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -43,6 +52,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Update user' })
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 200, description: 'User update successful' })
   async updateUser(
     @Param('id') userId: string,
@@ -54,6 +64,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Delete a user password' })
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 200, description: 'User deleted successful' })
   async deleteUser(@Param('id') userId: string): Promise<successResponseSpec> {
     await this.usersService.deleteUser(userId);
