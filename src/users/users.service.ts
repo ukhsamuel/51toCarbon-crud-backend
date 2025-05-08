@@ -11,6 +11,7 @@ import { SignupDto } from '../dto/auth/signup.dto';
 import { User } from '../utils/types/user';
 import { ObjectId } from 'mongodb';
 import { UpdateUserDto } from '../dto/user/update-user.dto';
+import logger from '../utils/logger';
 
 @Injectable()
 export class UsersService {
@@ -27,6 +28,7 @@ export class UsersService {
       });
     } catch (error) {
       console.error('Error creating user:', error);
+      logger.error(`An error occurred while creating user: ${error}`);
       throw new InternalServerErrorException('Failed to create user');
     }
   }
@@ -51,6 +53,7 @@ export class UsersService {
       });
     } catch (error) {
       console.error('Error finding user:', error);
+      logger.error(`An error occurred while finding user: ${error}`);
       throw new BadRequestException('Failed to retrieve user');
     }
   }
@@ -69,6 +72,7 @@ export class UsersService {
       return users;
     } catch (error) {
       console.error('Error fetching users:', error);
+      logger.error(`An error occurred while getting all users: ${error}`);
       throw new BadRequestException('Failed to fetch users');
     }
   }
@@ -97,6 +101,7 @@ export class UsersService {
       );
     } catch (error) {
       console.error('Error updating user:', error);
+      logger.error(`An error occurred while updating user: ${error}`);
       throw new BadRequestException('Failed to update user');
     }
   }
@@ -116,6 +121,7 @@ export class UsersService {
       await this.userRepository.delete({ id: new ObjectId(userId) });
     } catch (error) {
       console.error('Error deleting user:', error);
+      logger.error(`An error occurred while deleting user: ${error}`);
       throw new BadRequestException('Failed to delete user');
     }
   }

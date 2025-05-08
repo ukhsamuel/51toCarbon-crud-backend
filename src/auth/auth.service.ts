@@ -9,6 +9,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from 'src/dto/auth/login.dto';
 import * as bcrypt from 'bcrypt';
+import logger from '../utils/logger';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +34,7 @@ export class AuthService {
       return user;
     } catch (error) {
       console.error('Error signing up user:', error);
+      logger.error(`An error occurred while signing up: ${error}`);
       throw new InternalServerErrorException('Failed to register user');
     }
   }
@@ -54,6 +56,7 @@ export class AuthService {
       };
     } catch (error) {
       console.error('Error signing in user:', error);
+      logger.error(`An error occurred while signing in: ${error}`);
 
       if (error instanceof UnauthorizedException) {
         throw error;

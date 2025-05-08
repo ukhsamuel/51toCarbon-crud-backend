@@ -7,9 +7,6 @@ import { Match } from '../../users/validations/match.decorator';
 import { UserRoleEnum } from '../../utils/enums/roles.enum';
 
 export class BaseUser {
-  @ApiProperty()
-  id?: string;
-
   @ApiProperty({ example: 'test123' })
   @IsString()
   @IsNotEmpty()
